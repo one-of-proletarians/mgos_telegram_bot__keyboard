@@ -32,6 +32,21 @@ public:
         this->type = type;
     }
 
+    static Node* row()
+    {
+        return new Node(ROW);
+    }
+
+    static Node* button(string text)
+    {
+        return new Node(BUTTON, text);
+    }
+
+    static Node* webApp(string text, string url)
+    {
+        return new Node(WEB_APP, text, url);
+    }
+
     NodeType type;
     string text;
     string url;
@@ -40,27 +55,27 @@ public:
 class Keyboard {
 
 private:
-    vector<Node> stack;
+    vector<Node*> stack;
     bool isResized = false;
-    string json = "{\"keyboard\": [";
+    string json = "{\"keyboard\":[";
 
 public:
     Keyboard text(string text)
     {
-        this->stack.push_back(Node(BUTTON, text));
+        this->stack.push_back(Node::button(text));
         return *this;
     }
 
     Keyboard row(void)
     {
-        if (this->stack.back().type != ROW)
-            this->stack.push_back(Node(ROW));
+        if (this->stack.back()->type != ROW)
+            this->stack.push_back(Node::row());
         return *this;
     }
 
     Keyboard webApp(string text, string url)
     {
-        this->stack.push_back(Node(WEB_APP, text, url));
+        this->stack.push_back(Node::webApp(text, url));
         return *this;
     }
 
@@ -72,19 +87,19 @@ public:
 
     char* build()
     {
-        if (this->stack.back().type != ROW) {
+        if (this->stack.back()->type != ROW) {
             this->row();
         }
 
         string row = "[";
 
-        for (Node n : this->stack) {
-            switch (n.type) {
+        for (Node* n : this->stack) {
+            switch (n->type) {
             case BUTTON:
-                row += "{\"text\":\"" + n.text + "\"},";
+                row += "{\"text\":\"" + n->text + "\"},";
                 break;
             case WEB_APP:
-                row += "{\"text\":\"" + n.text + "\",\"web_app\":{\"url\":\"" + n.url + "\"}" + "},";
+                row += "{\"text\":\"" + n->text + "\",\"web_app\":{\"url\":\"" + n->url + "\"}" + "},";
                 break;
             default:
                 row.pop_back();
@@ -95,7 +110,7 @@ public:
 
         this->json.pop_back();
         if (this->isResized) {
-            this->json += "],\"resize_keyboard\": true}";
+            this->json += "],\"resize_keyboard\":true}";
         } else {
             this->json += "]}";
         }
@@ -128,7 +143,7 @@ int main()
                   .row()
                   .row()
                   .text("Plus")
-                  .resized()
+                  //   .resized()
                   .build();
 
     fstream json;
