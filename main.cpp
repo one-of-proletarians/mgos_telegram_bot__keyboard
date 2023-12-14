@@ -1,11 +1,10 @@
 #include <fstream>
 #include <iostream>
-
 using namespace std;
 
 typedef enum {
     ROW,
-    BUTTON,
+    TEXT,
     WEB_APP
 } NodeType;
 
@@ -39,7 +38,7 @@ public:
 
     static Node* button(string text)
     {
-        return new Node(BUTTON, text);
+        return new Node(TEXT, text);
     }
 
     static Node* webApp(string text, string url)
@@ -95,7 +94,7 @@ public:
 
         for (Node* n : this->stack) {
             switch (n->type) {
-            case BUTTON:
+            case TEXT:
                 row += "{\"text\":\"" + n->text + "\"},";
                 break;
             case WEB_APP:
