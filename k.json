@@ -1,0 +1,29 @@
+{
+    "keyboard": [
+        [
+            {
+                "text": "Menu"
+            }
+        ],
+        [
+            {
+                "text": "Reset"
+            },
+            {
+                "text": "Open web app",
+                "web_app": {
+                    "url": "https://www.google.com"
+                }
+            },
+            {
+                "text": "Menu2"
+            }
+        ],
+        [
+            {
+                "text": "Plus"
+            }
+        ]
+    ],
+    "resize_keyboard": true
+}

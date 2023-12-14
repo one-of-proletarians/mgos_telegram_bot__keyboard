@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "fstream": "cpp",
+    "ios": "cpp",
+    "iosfwd": "cpp",
+    "__availability": "cpp",
+    "iostream": "cpp"
+  }
+}
