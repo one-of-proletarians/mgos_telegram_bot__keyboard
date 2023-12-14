@@ -105,6 +105,8 @@ public:
                 this->json += row + "],";
                 row = "[";
             }
+
+            delete n;
         }
 
         this->json.pop_back();
